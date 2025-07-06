@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'MakanObat.dart';
 import 'RekamAktivitas.dart';
 import 'AnalisisKesehatan.dart';
@@ -16,15 +17,15 @@ class MainScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Header
+              // Header with logout button
               Container(
                 padding: const EdgeInsets.only(top: 60, bottom: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Text(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
                         'meditrack',
                         style: TextStyle(
                           fontSize: 25,
@@ -32,16 +33,37 @@ class MainScreen extends StatelessWidget {
                           fontFamily: 'MainFont',
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 30),
-                      child: Image.asset(
-                        'assets/ic_person.png',
-                        width: 40,
-                        height: 40,
+                      GestureDetector(
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.of(context).pushReplacementNamed('/login');
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.red[600],
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            children: const [
+                              Icon(Icons.logout, color: Colors.white, size: 18),
+                              SizedBox(width: 6),
+                              Text(
+                                'Logout',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
